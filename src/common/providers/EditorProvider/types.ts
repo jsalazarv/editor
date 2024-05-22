@@ -1,10 +1,9 @@
 export interface EditorContextProps {
   workArea: WorkArea;
   action: string;
+  initialize: (svg: SVGSVGElement) => void;
   setAction: (value: string) => void;
   setBackground: (img: string) => void;
-  initialize: (canvas: HTMLCanvasElement) => void;
-  addShape: () => void;
 }
 
 export interface WorkObject {
@@ -18,6 +17,6 @@ export interface WorkObject {
 
 export interface WorkArea {
   canvas?: HTMLCanvasElement | null;
-  background?: WorkObject | null;
+  background?: WorkObject | null | string | null;
   objects: [];
 }

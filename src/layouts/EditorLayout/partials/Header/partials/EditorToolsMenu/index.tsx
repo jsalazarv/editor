@@ -12,14 +12,13 @@ import {
 } from '@phosphor-icons/react';
 
 export const EditorToolsMenu = () => {
-  const { setBackground, action, setAction, addShape } = useEditor();
+  const { setBackground, action, setAction } = useEditor();
   const inputImageRef = useRef<HTMLInputElement>(null);
 
   const uploadImg = (file: File) => {
-    const reader = new FileReader();
+    const fileURL = URL.createObjectURL(file);
 
-    reader.onload = () => setBackground(reader.result as string);
-    reader.readAsDataURL(file);
+    setBackground(fileURL);
   };
 
   const handleInputImageChange = (
@@ -81,7 +80,7 @@ export const EditorToolsMenu = () => {
             ${
               action === EditorActions.RULER_TOOL && 'bg-primary-500 text-white'
             }`}
-          onClick={() => addShape()}>
+          onClick={() => setAction(EditorActions.RULER_TOOL)}>
           <Ruler size={20} />
         </button>
         <button

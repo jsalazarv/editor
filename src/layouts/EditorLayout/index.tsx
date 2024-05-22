@@ -28,7 +28,7 @@ export const EditorLayout = () => {
           <div className="max-w-7xl mx-auto h-full">
             <div className="px-4 py-6 sm:px-0 h-full">
               <div className="rounded-lg h-full">
-                <div className="h-full flex justify-center items-center">
+                <div className="h-full w-full flex justify-center items-center">
                   <Outlet />
                 </div>
               </div>
