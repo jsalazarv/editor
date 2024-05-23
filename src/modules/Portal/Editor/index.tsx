@@ -1,23 +1,45 @@
 import { useEditor } from "@common/providers/EditorProvider";
-import { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
+import { DrawnLine, IndicatorLine, } from "./components/Lines";
+import { useDrawLine } from "@common/providers/EditorProvider/hooks/useDrawLine";
 
 export const DrawingBoard = () => {
-  const { initialize } = useEditor();
-  const svgContainer = useRef(null);
+  const { initialize, workArea } = useEditor();
+  const svgRef = useRef<SVGSVGElement>(null);
+  const imgRef = useRef<SVGImageElement>(null);
+  const { lines, currentLine, startStroke, strokeIndicator } = useDrawLine();
+
+  const handleMouseDown = (event: React.MouseEvent) => {
+    startStroke(event);
+  };
+  
+  const handleMouseMove = (event: React.MouseEvent) => {
+    strokeIndicator(event, svgRef.current as SVGSVGElement);
+  }
 
   useEffect(() => {
-    if (svgContainer.current) {
-      initialize(svgContainer.current as SVGSVGElement);
+    if (svgRef.current && imgRef.current) {
+      initialize(svgRef.current as SVGSVGElement, imgRef.current as SVGImageElement);
     }
-  }, [svgContainer.current]);
+  }, [svgRef.current, imgRef.current]);
 
   return (
-    <div 
-      className="h-full w-full flex justify-center items-center" 
-      ref={svgContainer}>
-    </div>
-    // <svg ref={svgRef}>
-    //   <image href={workArea?.background as string}/>
-    // </svg>
+    <>
+      <svg 
+        ref={svgRef}
+        onMouseDown={(event) => handleMouseDown(event)}
+        onMouseMove={(event) => handleMouseMove(event)}>
+        <image ref={imgRef} href={workArea.background as string}/>
+        <g>
+          {lines.map((line, index) => (
+            <DrawnLine key={index} line={line} />
+          ))}
+          
+          {currentLine && (
+            <IndicatorLine line={currentLine} />
+          )}
+        </g>
+      </svg>
+    </>
   );
 }

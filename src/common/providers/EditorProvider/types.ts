@@ -1,7 +1,7 @@
 export interface EditorContextProps {
   workArea: WorkArea;
   action: string;
-  initialize: (svg: SVGSVGElement) => void;
+  initialize: (svg: SVGSVGElement, img: SVGImageElement) => void;
   setAction: (value: string) => void;
   setBackground: (img: string) => void;
 }
