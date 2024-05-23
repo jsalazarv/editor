@@ -20,3 +20,18 @@ export interface WorkArea {
   background?: WorkObject | null | string | null;
   objects: [];
 }
+
+interface ILine {
+  id: string;
+  label: string;
+  input_data: {
+    name: string;
+    size: number; 
+  };
+  coordinates: {
+    startX: number;
+    startY: number;
+    endX: number;
+    endY: number;
+  }
+}

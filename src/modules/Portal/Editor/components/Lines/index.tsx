@@ -7,12 +7,20 @@ export const IndicatorLine = ({ line }: IIndicatorLineProps) => {
       y1={line.startY}
       x2={line.endX}
       y2={line.endY}
-      stroke="green"
+      stroke="#28855e"
+      strokeDasharray="10"
     />
   );
 };
 
-export const DrawnLine = ({ line, label = 'A'  }: IDrawnLineProps) => {    
+export const DrawnLine = (
+  { 
+    line, 
+    label = '',
+    index,
+    onStartHandleMouseDown,
+    onEndHandleMouseDown
+  }: IDrawnLineProps) => {    
     return (
       <g>
         <line
@@ -20,21 +28,26 @@ export const DrawnLine = ({ line, label = 'A'  }: IDrawnLineProps) => {
           y1={line?.startY}
           x2={line?.endX}
           y2={line.endY}
-          stroke="black"
+          stroke="#28855e"
+          strokeDasharray="5"
         />
         <circle
           cx={line.startX}
           cy={line.startY}
-          r={3}
+          r={5}
           fill="red"
+          onMouseDown={(e) => onStartHandleMouseDown(e, index)}
         />
         
-        <g>
+        <g onMouseDown={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
+        }}>
           <circle
             cx={(line.startX + line.endX) / 2}
             cy={(line.startY + line.endY) / 2}
-            r={7}
-            fill="blue"
+            r={8}
+            fill="#28855e"
           />
           <text
             x={(line.startX + line.endX) / 2}
@@ -47,11 +60,12 @@ export const DrawnLine = ({ line, label = 'A'  }: IDrawnLineProps) => {
             {label}
           </text>
         </g>
-        <circle
+         <circle
           cx={line.endX}
           cy={line.endY}
-          r={3}
-          fill="green"
+          r={5}
+          fill="blue"
+          onMouseDown={(e) => onEndHandleMouseDown(e, index)}
         />
       </g>
     );
