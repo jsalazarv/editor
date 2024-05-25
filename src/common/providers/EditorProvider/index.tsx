@@ -1,28 +1,38 @@
 import { createContext, useContext, useEffect, useRef, useState } from 'react';
-import { EditorContextProps, WorkArea } from './types';
+import { EditorContextProps, ILine, WorkArea } from './types';
 import { calculateDimensions } from '@common/utils/canvas/calculateDimensions';
 
+const initWorkArea: WorkArea = {
+  canvas: null,
+  background: null,
+  objects: {
+    lines: [],
+  },
+};
+
 export const EditorContext = createContext<EditorContextProps>({
+  initWorkArea,
   workArea: {
     canvas: null,
     background: null,
-    objects: [],
+    objects: {
+      lines: [],
+    },
   },
   action: '',
   initialize: (): void => {},
   setAction: (): string => '',
   setBackground: (): void => {},
+  setLines: (): void => {},
+  lines: [],
 });
 
 export const useEditor = () => useContext(EditorContext);
 
 export const EditorProvider = ({ children }: { children: React.ReactNode }) => {
   const [action, setAction] = useState<string>('');
-  const [workArea, setWorkArea] = useState<WorkArea>({
-    canvas: null,
-    background: null,
-    objects: [],
-  });
+  const [lines, setLines] = useState<ILine[]>([]);
+  const [workArea, setWorkArea] = useState<WorkArea>(initWorkArea);
 
   const containerRef = useRef<SVGSVGElement | null>(null);
   const imgRef = useRef<SVGImageElement | null>(null);
@@ -60,11 +70,14 @@ export const EditorProvider = ({ children }: { children: React.ReactNode }) => {
   return (
     <EditorContext.Provider
       value={{
+        initWorkArea,
         action,
         workArea,
         initialize,
         setAction,
         setBackground,
+        setLines,
+        lines
       }}>
       {children}
     </EditorContext.Provider>

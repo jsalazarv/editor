@@ -1,10 +1,4 @@
-export interface ILine {
-  startX: number;
-  startY: number;
-  endX: number;
-  endY: number;
-  label: string;
-}
+import { ILine } from "@src/common/providers/EditorProvider/types";
 
 export interface IDrawnLineProps {
     line: ILine;

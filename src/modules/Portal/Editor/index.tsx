@@ -4,10 +4,10 @@ import { DrawnLine, IndicatorLine } from "./components/Lines";
 import { useDrawLine } from "@common/providers/EditorProvider/hooks/useDrawLine";
 
 export const DrawingBoard = () => {
-  const { initialize, workArea } = useEditor();
+  const { initialize, workArea, lines } = useEditor();
   const svgRef = useRef<SVGSVGElement>(null);
   const imgRef = useRef<SVGImageElement>(null);
-  const { lines, currentLine, startStroke, strokeIndicator, selectEndPoint, moveEndPoint, stopDragging, isDragging } = useDrawLine();
+  const { currentLine, startStroke, strokeIndicator, selectEndPoint, moveEndPoint, stopDragging, isDragging } = useDrawLine();
 
   const handleMouseDown = (event: React.MouseEvent) => {
     if (!isDragging) {
@@ -42,12 +42,13 @@ export const DrawingBoard = () => {
   }, [svgRef.current, imgRef.current]);
 
   return (
-    <>
+    <div className="w-full h-full flex flex-col">
       <svg 
         ref={svgRef}
         onMouseDown={handleMouseDown}
         onMouseMove={handleMouseMove}
         onMouseUp={handleMouseUp}
+        fill="white"
       >
         <image ref={imgRef} href={workArea.background as string}/>
         <g>
@@ -67,6 +68,7 @@ export const DrawingBoard = () => {
           )}
         </g>
       </svg>
-    </>
+       <pre>{JSON.stringify(lines,0,2)}</pre>
+    </div>
   );
 };
