@@ -31,12 +31,7 @@ export interface ILine {
   uuid: string;
   label: string;
   canvas_id: string;
-  coordinates: {
-    startX: number;
-    startY: number;
-    endX: number;
-    endY: number;
-  },
+  coordinates: ICoordinates,
   input_data?: {
     name?: string;
     measurement?: number; 
@@ -46,4 +41,11 @@ export interface ILine {
     createdBy?: string;
     deletedAt?: Date;
   };
+}
+
+export interface ICoordinates {
+  startX: number;
+  startY: number;
+  endX: number;
+  endY: number;
 }
